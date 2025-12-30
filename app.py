@@ -6,11 +6,16 @@ import numpy as np
 # --- LOAD ASSETS ---
 # Loading from the 'models/' folder as we planned
 model = joblib.load("models/best_credit_model.pkl")
+feat_importance = joblib.load("models/feature_importance.pkl")
 cat_cols = ['Sex', 'Housing', 'Saving accounts', 'Checking account', 'Purpose']
 encoders = {col: joblib.load(f"models/{col}_encoder.pkl") for col in cat_cols}
 
 st.set_page_config(page_title="Credit Risk AI", layout="centered")
-st.title("🏦 Credit Risk Prediction App")
+# --- SIDEBAR / NAVIGATION ---
+tab1, tab2 = st.tabs(["🚀 Make a Prediction", "📊 Data Insights"])
+# --- TAB 1: PREDICTION ---
+with tab1:
+    st.title("🏦 Credit Risk Prediction")
 st.write("This app uses an **Extra Trees Classifier** (72.5% Accuracy) to predict credit default risk.")
 
 # --- USER INPUTS ---
