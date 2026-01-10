@@ -81,25 +81,46 @@ with tab1:
 
 # --- TAB 2: DATA INSIGHTS ---
 with tab2:
-    st.title("🔍 Model & Data Insights")
-    
+    st.title("🔍 Strategic Model & Data Insights")
+    st.write("Below are the key findings from our SQL-driven analysis of the German Credit Dataset.")
+
+    # Section 1: Feature Importance & Business Logic
     col_a, col_b = st.columns(2)
-    
     with col_a:
         st.subheader("Key Drivers of Risk")
-        st.write("Which factors the AI weighs most heavily.")
         fig, ax = plt.subplots()
         sns.barplot(x='Importance', y='Feature', data=feat_importance, palette='viridis', ax=ax)
         st.pyplot(fig)
-        
+    
     with col_b:
         st.subheader("Why these features?")
-        st.markdown("""
-        * **Checking Account:** The strongest predictor of immediate liquidity.
-        * **Monthly_Installment:** High monthly burdens increase default probability.
-        * **Age:** Older applicants often show more financial stability.
+        st.info("""
+        - **Checking Account:** The strongest predictor of immediate liquidity.
+        - **Monthly_Installment:** (New Feature) High monthly burdens increase default probability.
+        - **Age:** Older applicants often show more financial stability.
         """)
 
     st.divider()
-    st.subheader("How to interpret the results")
-    st.info("The model analyzes 10 specific features. A 'Bad Risk' prediction indicates that the applicant's profile closely matches historical defaults in the German Credit Dataset.")
+
+    # Section 2: Strategic Insights (The SQL Findings)
+    st.subheader("⚠️ High-Risk Segments & Generational Trends")
+    col_c, col_d = st.columns(2)
+
+    with col_c:
+        # Display the Strategic Insight Image 1
+        st.image("images/strategic_insight_1.png", caption="High-Risk Housing & Job Segments")
+        st.write("**Finding:** Renters with skilled jobs show a default rate > 40%.")
+
+    with col_d:
+        # Display the Strategic Insight Image 2
+        st.image("images/strategic_insight_2.png", caption="Default Risk by Age Group")
+        st.write("**Finding:** Gen Z / Young Adults are significantly higher risk than Seniors.")
+
+    # Section 3: Feature Engineering Explanation
+    st.divider()
+    with st.expander("🛠 View Feature Engineering Details"):
+        st.write("""
+        We improved model accuracy by engineering two main features:
+        1. **Log Transformation:** Normalizing 'Credit Amount' to handle outliers.
+        2. **Monthly Installment:** Calculated as `Credit Amount / Duration` to measure the borrower's monthly pressure.
+        """)
